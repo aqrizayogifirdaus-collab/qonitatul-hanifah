@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Happy Birthday, My Just Friend! 🎂✨</title>
+  
+  <!-- Google Fonts: Handwritten & Modern Aesthetic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet">
+  
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+  <style>
+    :root {
+      --bg-cream: #fbf8f3;
+      --paper-cream: #fffdfa;
+      --primary-rose: #ff6b8b;
+      --soft-pink: #ffe5ec;
+      --deep-pink: #c9184a;
+      --warm-peach: #ffb4a2;
+      --matcha-green: #90be6d;
+      --soft-yellow: #fff3b0;
+      --soft-blue: #d8e2dc;
+      --text-dark: #2b2d42;
+      --text-muted: #6c757d;
+      --card-shadow: 0 14px 35px rgba(255, 107, 139, 0.12), 0 4px 12px rgba(0,0,0,0.04);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: var(--bg-cream);
+      background-image: 
+        radial-gradient(#f0c3cb 0.85px, transparent 0.85px), 
+        radial-gradient(#f0c3cb 0.85px, var(--bg-cream) 0.85px);
+      background-size: 24px 24px;
+      background-position: 0 0, 12px 12px;
+      color: var(--text-dark);
+      overflow-x: hidden;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* Floating cute doodles/sparkles */
+    .bg-doodles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+    .doodle {
+      position: absolute;
+      bottom: -40px;
+      opacity: 0.6;
+      animation: floatDoodle 12s infinite linear;
+      font-size: 20px;
+    }
+    @keyframes floatDoodle {
+      0% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+      100% { transform: translateY(-115vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* ============================================================
+       SCREEN 1: AESTHETIC ENVELOPE / DELIVERY PARCEL (OVERLAY)
+       ============================================================ */
+    #welcome-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 50%, #fbc2eb 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      padding: 24px;
+      color: white;
+      text-align: center;
+      transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+    }
+    #welcome-screen.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    
+    .parcel-box {
+      background: #fff;
+      padding: 28px 24px;
+      border-radius: 24px;
+      max-width: 360px;
+      width: 100%;
+      box-shadow: 0 25px 60px rgba(0,0,0,0.22);
+      color: var(--text-dark);
+      position: relative;
+      cursor: pointer;
+      transform: rotate(-1.5deg);
+      transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .parcel-box:hover {
+      transform: rotate(0deg) scale(1.03);
+    }
+    /* Washi tape on parcel */
+    .washi-tape-top {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 110px;
+      height: 26px;
+      background: rgba(255, 224, 130, 0.85);
+      border-left: 2px dashed rgba(200, 150, 0, 0.4);
+      border-right: 2px dashed rgba(200, 150, 0, 0.4);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    }
+    .stamp-badge {
+      display: inline-block;
+      border: 2px dashed var(--primary-rose);
+      color: var(--primary-rose);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+    .parcel-icon {
+      font-size: 64px;
+      margin: 8px 0;
+      animation: pulseGift 1.8s infinite ease-in-out;
+      display: inline-block;
+    }
+    @keyframes pulseGift {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1) rotate(4deg); }
+    }
+    .parcel-title {
+      font-size: 20px;
+      font-weight: 800;
+      color: #1f2430;
+      margin-bottom: 4px;
+    }
+    .parcel-subtitle {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: var(--primary-rose);
+      margin-bottom: 16px;
+    }
+    .btn-open-parcel {
+      background: linear-gradient(45deg, #ff6b8b, #ff8e72);
+      color: white;
+      border: none;
+      padding: 13px 28px;
+      border-radius: 50px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 107, 139, 0.4);
+      transition: all 0.25s;
+      width: 100%;
+    }
+    .btn-open-parcel:hover {
+      box-shadow: 0 12px 25px rgba(255, 107, 139, 0.6);
+      transform: translateY(-2px);
+    }
+
+    /* ============================================================
+       FLOATING AUDIO CONTROLLER (RETRO CASSETTE / VINYL)
+       ============================================================ */
+    .floating-player {
+      position: fixed;
+      bottom: 20px;
+      right: 18px;
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 107, 139, 0.3);
+      padding: 8px 16px;
+      border-radius: 40px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      z-index: 900;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .floating-player:hover {
+      transform: scale(1.04);
+    }
+    .disc-icon {
+      width: 30px;
+      height: 30px;
+      background: radial-gradient(circle, #2b2d42 30%, #ff6b8b 31%, #2b2d42 60%);
+      border-radius: 50%;
+      border: 2px solid white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .playing .disc-icon {
+      animation: spinDisc 3s linear infinite;
+    }
+    @keyframes spinDisc {
+      100% { transform: rotate(360deg); }
+    }
+    .player-text {
+      text-align: left;
+    }
+    .player-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--deep-pink);
+    }
+    .player-status {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ============================================================
+       MAIN CONTENT CONTAINER
+       ============================================================ */
+    .container {
+      position: relative;
+      z-index: 10;
+      max-width: 620px;
+      margin: 0 auto;
+      padding: 40px 18px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+
+    /* Scrapbook Card Base */
+    .scrapbook-card {
+      background: var(--paper-cream);
+      border-radius: 28px;
+      padding: 34px 24px;
+      box-shadow: var(--card-shadow);
+      border: 1.5px solid #ffe8ed;
+      position: relative;
+      transition: transform 0.3s ease;
+    }
+    .scrapbook-card:hover {
+      transform: translateY(-3px);
+    }
+
+    /* Washi Tape Header */
+    .washi-tape {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%) rotate(-1deg);
+      background: rgba(255, 230, 140, 0.9);
+      padding: 4px 22px;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      color: #795548;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.06);
+      border-left: 2px dashed rgba(160, 120, 0, 0.4);
+      border-right: 2px dashed rgba(160, 120, 0, 0.4);
+      text-transform: uppercase;
+      z-index: 3;
+    }
+
+    /* ============================================================
+       SECTION 1: HERO & POLAROID PHOTO
+       ============================================================ */
+    .hero-header {
+      text-align: center;
+    }
+    .level-badge {
+      display: inline-block;
+      background: var(--soft-pink);
+      color: var(--deep-pink);
+      padding: 6px 18px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 16px;
+    }
+    
+    /* Real Polaroid Styling */
+    .polaroid-frame {
+      background: white;
+      padding: 14px 14px 24px;
+      border-radius: 12px;
+      box-shadow: 0 14px 35px rgba(0,0,0,0.12), 0 2px 6px rgba(0,0,0,0.06);
+      width: 230px;
+      margin: 0 auto 22px;
+      transform: rotate(-2.5deg);
+      transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+    .polaroid-frame:hover {
+      transform: rotate(0deg) scale(1.05);
+    }
+    .polaroid-tape {
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 20px;
+      background: rgba(255, 182, 193, 0.7);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      z-index: 4;
+    }
+    .polaroid-photo-box {
+      width: 100%;
+      height: 320px;
+      overflow: hidden;
+      border-radius: 8px;
+      background: #f0f0f0;
+      position: relative;
+    }
+    .polaroid-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 30%;
+      transform: scale(1.02);
+      transition: transform 0.4s ease;
+    }
+    .polaroid-photo-box img:hover {
+      transform: scale(1.06);
+    }
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      font-size: 21px;
+      font-weight: 700;
+      color: #3d405b;
+      margin-top: 14px;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .main-title {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 38px;
+      color: var(--deep-pink);
+      line-height: 1.1;
+      margin-bottom: 6px;
+    }
+    .main-name {
+      font-size: 28px;
+      font-weight: 800;
+      color: #2b2d42;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+    }
+    .hero-note {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.6;
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    /* ============================================================
+       SECTION 2: SPOTIFY CASSETTE PLAYER
+       ============================================================ */
+    .cassette-box {
+      background: linear-gradient(135deg, #2b2d42 0%, #1f202e 100%);
+      border-radius: 22px;
+      padding: 22px;
+      color: white;
+      box-shadow: 0 12px 28px rgba(43, 45, 66, 0.25);
+    }
+    .cassette-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 12px;
+      color: #ff99ac;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .song-details {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+    .album-art {
+      width: 52px;
+      height: 52px;
+      background: linear-gradient(45deg, #ff6b8b, #702632);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+    .song-title-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+    .song-artist-text {
+      font-size: 13px;
+      color: #b0b4c3;
+      font-weight: 500;
+    }
+    .progress-bar-container {
+      background: rgba(255,255,255,0.15);
+      height: 6px;
+      border-radius: 10px;
+      position: relative;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      width: 45%;
+      height: 100%;
+      background: linear-gradient(90deg, #ff6b8b, #ff99ac);
+      border-radius: 10px;
+      animation: progressSim 45s linear infinite;
+    }
+    @keyframes progressSim {
+      0% { width: 5%; }
+      50% { width: 65%; }
+      100% { width: 95%; }
+    }
+    .time-stamps {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #8d93a5;
+      font-weight: 600;
+    }
+    .lyrics-quote {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px dashed rgba(255,255,255,0.12);
+      font-style: italic;
+      font-size: 13.5px;
+      color: #ffe3e8;
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       SECTION 3: NATURAL HANDWRITTEN LETTER (BINDER PAPER)
+       ============================================================ */
+    .binder-paper {
+      background: #ffffff;
+      background-image: linear-gradient(#f0f0f0 1px, transparent 1px);
+      background-size: 100% 28px;
+      border-radius: 18px;
+      padding: 34px 26px 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+      position: relative;
+      border-left: 4px solid #ffccd5;
+    }
+    .binder-holes {
+      position: absolute;
+      left: 10px;
+      top: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .hole {
+      width: 10px;
+      height: 10px;
+      background: #e9ecef;
+      border-radius: 50%;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.2);
+    }
+    .letter-heading {
+      font-family: 'Caveat', cursive;
+      font-size: 32px;
+      color: var(--deep-pink);
+      margin-bottom: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .letter-content {
+      font-family: 'Caveat', cursive;
+      font-size: 22px;
+      color: #2b2d42;
+      line-height: 28px;
+      letter-spacing: 0.3px;
+    }
+    .letter-content p {
+      margin-bottom: 16px;
+    }
+    .letter-footer-sign {
+      margin-top: 20px;
+      text-align: right;
+      font-family: 'Caveat', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--primary-rose);
+    }
+
+    /* ============================================================
+       SECTION 4: BUKET BUNGA AESTHETIC
+       ============================================================ */
+    .bouquet-card-box {
+      text-align: center;
+    }
+    .bouquet-scene {
+      position: relative;
+      width: 250px;
+      height: 290px;
+      margin: 15px auto 10px;
+    }
+    .wrap-cone {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 75px solid transparent;
+      border-right: 75px solid transparent;
+      border-top: 135px solid #ffb3c6;
+      filter: drop-shadow(0 6px 12px rgba(255, 130, 160, 0.3));
+    }
+    .wrap-top-edge {
+      position: absolute;
+      top: 145px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 155px;
+      height: 18px;
+      background: #ff8fab;
+      border-radius: 6px;
+      z-index: 3;
+    }
+    .ribbon-knot {
+      position: absolute;
+      bottom: 60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      background: #c9184a;
+      border-radius: 50%;
+      z-index: 6;
+    }
+    .ribbon-wings {
+      position: absolute;
+      bottom: 58px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 48px;
+      height: 18px;
+      z-index: 5;
+    }
+    .ribbon-wings::before, .ribbon-wings::after {
+      content: '';
+      position: absolute;
+      width: 22px;
+      height: 14px;
+      background: #ff4d6d;
+      border-radius: 50%;
+    }
+    .ribbon-wings::before { left: 0; transform: rotate(-25deg); }
+    .ribbon-wings::after { right: 0; transform: rotate(25deg); }
+
+    .flower-head {
+      position: absolute;
+      font-size: 38px;
+      animation: flowerGentleSway 3s ease-in-out infinite alternate;
+      filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    }
+    @keyframes flowerGentleSway {
+      0% { transform: translateY(0) rotate(-3deg); }
+      100% { transform: translateY(-5px) rotate(4deg); }
+    }
+    .bouquet-card-box .tag-box {
+      background: #fff0f3;
+      border: 1.5px dashed #ff758f;
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-top: 14px;
+      font-size: 14px;
+      color: #a4133c;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       SECTION 5: SCRATCH CARD (GOSOK KARTU BERHADIAH)
+       ============================================================ */
+    .scratch-container {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      height: 175px;
+      margin: 18px auto 8px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      user-select: none;
+    }
+    .scratch-secret {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, #fff3b0 0%, #ffccd5 100%);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 16px;
+      text-align: center;
+    }
+    .scratch-voucher-tag {
+      background: var(--deep-pink);
+      color: white;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 4px 12px;
+      border-radius: 20px;
+      letter-spacing: 0.5px;
+      margin-bottom: 8px;
+    }
+    .scratch-secret-text {
+      font-size: 16px;
+      font-weight: 800;
+      color: #2b2d42;
+      line-height: 1.35;
+    }
+    .scratch-secret-sub {
+      font-size: 12px;
+      color: #6c757d;
+      margin-top: 4px;
+      font-weight: 600;
+    }
+    #scratch-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+      z-index: 2;
+    }
+    .scratch-hint {
+      font-size: 13px;
+      color: var(--primary-rose);
+      font-weight: 700;
+      margin-top: 10px;
+    }
+
+    /* ============================================================
+       SECTION 6: STICKY NOTES MEMO (WARNA-WARNI)
+       ============================================================ */
+    .sticky-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 14px;
+    }
+    @media (max-width: 480px) {
+      .sticky-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .sticky-note {
+      padding: 18px 16px;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      position: relative;
+      transition: transform 0.25s ease;
+    }
+    .sticky-note:hover {
+      transform: scale(1.03) rotate(0deg) !important;
+    }
+    .note-yellow { background: #fff9db; border-top: 5px solid #ffe066; transform: rotate(-1.5deg); }
+    .note-pink   { background: #ffeef2; border-top: 5px solid #ff8da1; transform: rotate(1.8deg); }
+    .note-green  { background: #eefbee; border-top: 5px solid #8ce99a; transform: rotate(-1.2deg); }
+    .note-blue   { background: #edf7ff; border-top: 5px solid #74c0fc; transform: rotate(1.5deg); }
+    
+    .note-pin {
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 14px;
+    }
+    .note-title {
+      font-size: 15px;
+      font-weight: 800;
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .note-desc {
+      font-size: 13px;
+      line-height: 1.55;
+      color: #495057;
+      font-weight: 500;
+    }
+
+    /* ============================================================
+       SECTION 7: CAKE & TIUP LILIN INTERAKTIF
+       ============================================================ */
+    .cake-box {
+      text-align: center;
+    }
+    .cake-display {
+      margin: 10px 0;
+      position: relative;
+      display: inline-block;
+      user-select: none;
+    }
+    .candle-flame-btn {
+      font-size: 34px;
+      cursor: pointer;
+      display: inline-block;
+      animation: flameWobble 0.7s infinite alternate ease-in-out;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .candle-flame-btn.blown {
+      opacity: 0.2;
+      filter: grayscale(1);
+      transform: scale(0.6);
+      animation: none;
+    }
+    @keyframes flameWobble {
+      0% { transform: scale(1) rotate(-3deg); filter: drop-shadow(0 0 6px #ffcc00); }
+      100% { transform: scale(1.15) rotate(4deg); filter: drop-shadow(0 0 14px #ff5722); }
+    }
+    .cake-body-icon {
+      font-size: 64px;
+      cursor: pointer;
+      display: block;
+      transition: transform 0.3s;
+      margin-top: -6px;
+    }
+    .cake-body-icon:hover {
+      transform: scale(1.1);
+    }
+    .cake-message-box {
+      font-size: 14.5px;
+      color: var(--deep-pink);
+      font-weight: 700;
+      min-height: 24px;
+      margin-top: 10px;
+    }
+
+    /* ============================================================
+       SECTION 8: CAPSULE WISHES (FLIP CARDS)
+       ============================================================ */
+    .capsule-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 16px;
+    }
+    @media (max-width: 480px) {
+      .capsule-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .capsule-card {
+      background: white;
+      border: 1.5px solid #ffe0e6;
+      border-radius: 18px;
+      padding: 16px 14px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      text-align: left;
+    }
+    .capsule-card:hover {
+      border-color: var(--primary-rose);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 18px rgba(255, 107, 139, 0.15);
+    }
+    .capsule-card.opened {
+      background: linear-gradient(135deg, #fff0f3, #ffe5ec);
+      border-color: var(--primary-rose);
+    }
+    .capsule-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+      font-weight: 800;
+      color: #2b2d42;
+      margin-bottom: 6px;
+    }
+    .capsule-text {
+      font-size: 12.5px;
+      color: #6c757d;
+      line-height: 1.5;
+    }
+
+    /* ============================================================
+       SECTION 9: VIRTUAL LOVE SPAMMER
+       ============================================================ */
+    .love-spammer-card {
+      text-align: center;
+      background: linear-gradient(135deg, #ffffff 0%, #fff5f7 100%);
+    }
+    .btn-hug {
+      background: linear-gradient(45deg, #ff4d6d, #ff758f);
+      color: white;
+      border: none;
+      padding: 15px 36px;
+      font-size: 16px;
+      font-weight: 800;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 8px 24px rgba(255, 77, 109, 0.35);
+      transition: all 0.2s;
+      margin-top: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-hug:hover {
+      transform: scale(1.05);
+      box-shadow: 0 12px 28px rgba(255, 77, 109, 0.5);
+    }
+    .btn-hug:active {
+      transform: scale(0.95);
+    }
+    .love-counter-badge {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--deep-pink);
+      margin-top: 14px;
+    }
+    .floating-fly-heart {
+      position: fixed;
+      font-size: 28px;
+      pointer-events: none;
+      z-index: 10000;
+      animation: riseHeart 1.8s forwards cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes riseHeart {
+      0% { transform: translate(-50%, -50%) scale(0.4); opacity: 1; }
+      100% { transform: translate(calc(-50% + (var(--randX) * 1px)), -180px) scale(1.6); opacity: 0; }
+    }
+
+    /* ============================================================
+       SECTION 10: WHATSAPP CHAT BUBBLE (0856-4671-0192)
+       ============================================================ */
+    .wa-chat-container {
+      background: #e5ddd5;
+      background-image: radial-gradient(#d4cbbe 1px, transparent 1px);
+      background-size: 18px 18px;
+      border-radius: 20px;
+      padding: 22px 18px;
+      margin-top: 16px;
+      text-align: left;
+    }
+    .wa-bubble {
+      background: #ffffff;
+      padding: 12px 16px;
+      border-radius: 0 16px 16px 16px;
+      max-width: 85%;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .wa-bubble::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -8px;
+      width: 0;
+      height: 0;
+      border-top: 10px solid #ffffff;
+      border-left: 10px solid transparent;
+    }
+    .wa-bubble-text {
+      font-size: 14px;
+      color: #111b21;
+      line-height: 1.5;
+    }
+    .wa-bubble-time {
+      font-size: 10.5px;
+      color: #667781;
+      text-align: right;
+      margin-top: 4px;
+    }
+    .btn-wa-reply {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #25D366;
+      color: white;
+      text-decoration: none;
+      padding: 14px 24px;
+      border-radius: 50px;
+      font-weight: 800;
+      font-size: 15px;
+      box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+      transition: all 0.25s;
+    }
+    .btn-wa-reply:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(37, 211, 102, 0.55);
+    }
+
+    /* Footer */
+    .footer-note {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Audio Background Music: Sheila on 7 - Anugerah Terindah Yang Pernah Kumiliki -->
+  <audio id="bg-music" loop preload="auto">
+    <source src="anugerah_terindah.mp3" type="audio/mp3">
+    <source src="lagu.mp3" type="audio/mp3">
+    <source src="https://archive.org/download/sheilaon7anugerahterindahyangpernahkumilikipluslirik/Sheila%20On%207%20-%20Anugerah%20Terindah%20Yang%20Pernah%20Kumiliki%20%28Plus%20Lirik%29.mp3" type="audio/mp3">
+  </audio>
+
+  <!-- Floating Audio Player Pill -->
+  <div class="floating-player" id="floating-player" onclick="toggleMusic()">
+    <div class="disc-icon"></div>
+    <div class="player-text">
+      <div class="player-title">Sheila on 7</div>
+      <div class="player-status" id="player-status">Memutar Lagu 🎵</div>
+    </div>
+  </div>
+
+  <!-- Background Floating Doodles -->
+  <div class="bg-doodles" id="doodles-container"></div>
+
+  <!-- ============================================================
+       SCREEN 1: WELCOME DELIVERY PARCEL (OVERLAY)
+       ============================================================ -->
+  <div id="welcome-screen">
+    <div class="parcel-box" onclick="openCelebration()">
+      <div class="washi-tape-top"></div>
+      <div class="stamp-badge">SPECIAL DELIVERY 💌</div>
+      <div class="parcel-icon">🎁</div>
+      <h2 class="parcel-title">Ada Paket Buat Kamu!</h2>
+      <div class="parcel-subtitle">To: My Just Friend ✨</div>
+      <p style="font-size: 13.5px; color: #6c757d; margin-bottom: 18px; line-height: 1.5;">
+        Bukan paket belanjaan, tapi sesuatu yang dibikin khusus buat ngerayain hari lahir lo!
+      </p>
+      <button class="btn-open-parcel">Buka Paketnya Sekarang 🎀</button>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       MAIN SCRAPBOOK JOURNEY (CONTAINER)
+       ============================================================ -->
+  <div class="container">
+
+    <!-- CARD 1: HERO & POLAROID PHOTO -->
+    <div class="scrapbook-card hero-header">
+      <div class="washi-tape">★ OFFICIAL BIRTHDAY STAR ★</div>
+      
+      <div style="margin-top: 10px;">
+        <span class="level-badge">LEVEL UP DAY! 🎂</span>
+      </div>
+
+      <!-- Real Polaroid Frame -->
+      <div class="polaroid-frame">
+        <div class="polaroid-tape"></div>
+        <div class="polaroid-photo-box">
+          <img src="foto.jpg" alt="My Just Friend" onerror="this.src='my_just_friend.png'">
+        </div>
+        <div class="polaroid-caption">
+          Si paling random tapi paling baik ✌️✨
+        </div>
+      </div>
+
+      <div class="main-title">Happy Birthday!</div>
+      <h1 class="main-name">My Just Friend 🤍</h1>
+      <p class="hero-note">
+        Selamat bertambah usia buat temen gue yang satu ini. Makasih udah lahir ke dunia dan jadi temen yang selalu asik diajak cerita apa aja!
+      </p>
+    </div>
+
+    <!-- CARD 2: RETRO CASSETTE MUSIC PLAYER -->
+    <div class="scrapbook-card" style="padding: 24px;">
+      <div class="washi-tape">OUR SOUNDTRACK 🎶</div>
+      
+      <div class="cassette-box">
+        <div class="cassette-top">
+          <span>NOW PLAYING</span>
+          <span>SPECIAL PLAYLIST</span>
+        </div>
+        
+        <div class="song-details">
+          <div class="album-art">🎧</div>
+          <div>
+            <div class="song-title-text">Anugerah Terindah Yang Pernah Kumiliki</div>
+            <div class="song-artist-text">Sheila On 7</div>
+          </div>
+        </div>
+
+        <div class="progress-bar-container">
+          <div class="progress-bar-fill"></div>
+        </div>
+        
+        <div class="time-stamps">
+          <span>01:14</span>
+          <span>04:25</span>
+        </div>
+
+        <div class="lyrics-quote">
+          "Melihat tawamu, mendengar senandungmu... <br>
+          Menjadikan hariku terasa lebih berwarna dan berarti." 🌸
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 3: HANDWRITTEN LETTER (NOTEPAD BINDER) -->
+    <div class="scrapbook-card" style="padding: 20px;">
+      <div class="washi-tape">A LETTER FOR YOU ✉️</div>
+
+      <div class="binder-paper">
+        <div class="binder-holes">
+          <div class="hole"></div>
+          <div class="hole"></div>
+          <div class="hole"></div>
+          <div class="hole"></div>
+          <div class="hole"></div>
+        </div>
+
+        <div class="letter-heading">
+          Hai sahabatku, My Just Friend! 🌻
+        </div>
+
+        <div class="letter-content">
+          <p>
+            Gue sengaja bikin halaman ini spesial buat lo. Bukan ucapan copas atau kalimat template yang sering sliweran di story, tapi bener-bener obrolan tulus dari temen lo sendiri.
+          </p>
+          <p>
+            Makasih banyak ya udah selalu jadi orang yang baik dan gak ribet. Dari obrolan random tengah malem, sambat-sambat kecil soal hari yang berat, sampe hal receh yang bikin ketawa sendiri—makasih udah selalu nemenin dan dengerin.
+          </p>
+          <p>
+            Di umur yang baru ini, gue doain semua hal baik dateng ke lo:
+          </p>
+          <p>
+            1. Semoga rencana yang lo simpen di kepala pelan-pelan tercapai.<br>
+            2. Jangan gampang overthinking atau ngerasa kurang, lo itu berharga banget tau!<br>
+            3. Sehat terus, makin bahagia, dan dijauhin dari hal-hal yang bikin lo sedih.
+          </p>
+          <p>
+            Tetep jadi diri lo yang ceria yaa, jangan pernah berubah! 🤍
+          </p>
+          
+          <div class="letter-footer-sign">
+            — Dari temen lo yang selalu dukung lo ✨
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 4: BUKET BUNGA ABADI (AESTHETIC) -->
+    <div class="scrapbook-card bouquet-card-box">
+      <div class="washi-tape">BUKET BUNGA SPESIAL 💐</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 10px;">
+        Bunga Cantik Buat Hari Bahagiamu
+      </h3>
+      <p style="font-size: 13.5px; color: #6c757d; margin-top: 4px;">
+        Buket bunga abadi yang gak bakal layu, sama kayak rasa pertemanan kita!
+      </p>
+
+      <!-- Buket Visual -->
+      <div class="bouquet-scene">
+        <!-- Bunga mawar & tulip beterbangan di atas cone -->
+        <div class="flower-head" style="top: 25px; left: 100px; animation-delay: 0s;">🌹</div>
+        <div class="flower-head" style="top: 15px; left: 60px;  animation-delay: 0.4s;">🌸</div>
+        <div class="flower-head" style="top: 20px; left: 145px; animation-delay: 0.8s;">🌷</div>
+        <div class="flower-head" style="top: 60px; left: 40px;  animation-delay: 0.2s;">🌺</div>
+        <div class="flower-head" style="top: 65px; left: 165px; animation-delay: 0.6s;">🌼</div>
+        <div class="flower-head" style="top: 70px; left: 105px; animation-delay: 1s;">💐</div>
+        <div class="flower-head" style="top: 95px; left: 70px;  animation-delay: 0.5s;">✨</div>
+        <div class="flower-head" style="top: 90px; left: 140px; animation-delay: 0.9s;">🌿</div>
+
+        <!-- Wrapping paper -->
+        <div class="wrap-top-edge"></div>
+        <div class="wrap-cone"></div>
+        <div class="ribbon-wings"></div>
+        <div class="ribbon-knot"></div>
+      </div>
+
+      <div class="tag-box">
+        🌹 "Semoga harimu selalu mekar seindah bunga, dipenuhi aroma kebahagiaan dan senyuman yang gak pernah pudar!"
+      </div>
+    </div>
+
+    <!-- CARD 5: SCRATCH CARD (GOSOK KARTU BERHADIAH) -->
+    <div class="scrapbook-card" style="text-align: center;">
+      <div class="washi-tape">MINI SURPRISE 🎁</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 10px;">
+        Gosok Kartu Hadiah Ini!
+      </h3>
+      <p style="font-size: 13px; color: #6c757d; margin-top: 4px;">
+        Gunakan jarimu (atau mouse) buat menggosok lapisan abu-abu di bawah:
+      </p>
+
+      <div class="scratch-container">
+        <!-- Hadiah di balik gosokan -->
+        <div class="scratch-secret">
+          <div class="scratch-voucher-tag">★ GOLDEN TICKET ★</div>
+          <div class="scratch-secret-text">
+            "VOUCHER MAKAN BARENG & CURHAT BEBAS SEPUASNYA! 🍟🍦"
+          </div>
+          <div class="scratch-secret-sub">
+            (Klaim kapan aja, gak ada tanggal kadaluwarsanya!)
+          </div>
+        </div>
+
+        <!-- Kanvas Gosokan -->
+        <canvas id="scratch-canvas"></canvas>
+      </div>
+
+      <div class="scratch-hint" id="scratch-hint">
+        ✨ Gosok terus sampai rahasianya kebuka! ✨
+      </div>
+    </div>
+
+    <!-- CARD 6: STICKY NOTES MEMO -->
+    <div class="scrapbook-card">
+      <div class="washi-tape">WHY YOU ARE SPECIAL 📌</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 8px; text-align: center;">
+        Hal-Hal yang Bikin Lo Berharga
+      </h3>
+
+      <div class="sticky-grid">
+        <div class="sticky-note note-yellow">
+          <div class="note-pin">📌</div>
+          <div class="note-title">🌻 Si Paling Ramah</div>
+          <div class="note-desc">Senyum lo selalu bikin suasana cair. Gak pernah jaim dan selalu apa adanya.</div>
+        </div>
+
+        <div class="sticky-note note-pink">
+          <div class="note-pin">📌</div>
+          <div class="note-title">💖 Pendengar yang Baik</div>
+          <div class="note-desc">Kalo lagi ada masalah, cerita ke lo selalu bikin tenang tanpa dihakimi.</div>
+        </div>
+
+        <div class="sticky-note note-green">
+          <div class="note-pin">📌</div>
+          <div class="note-title">💪 Pribadi yang Kuat</div>
+          <div class="note-desc">Walau kadang capek sama keadaan, lo selalu berhasil bangkit lagi dengan senyum.</div>
+        </div>
+
+        <div class="sticky-note note-blue">
+          <div class="note-pin">📌</div>
+          <div class="note-title">🍀 Temen Langka</div>
+          <div class="note-desc">Zaman sekarang susah nyari temen setulus lo. Beruntung banget bisa kenal lo!</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 7: TIUP LILIN & POTONG KUE -->
+    <div class="scrapbook-card cake-box">
+      <div class="washi-tape">MAKE A WISH 🎂</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 10px;">
+        Tiup Lilin & Potong Kuenya!
+      </h3>
+      <p style="font-size: 13.5px; color: #6c757d; margin-top: 4px;">
+        Pejamkan mata bentar, panjatkan doa terbaik, lalu ketuk lilinnya:
+      </p>
+
+      <div class="cake-display">
+        <div class="candle-flame-btn" id="flame" onclick="blowCandle()" title="Ketuk lilin untuk tiup">🔥</div>
+        <div class="cake-body-icon" id="cake" onclick="cutCake()" title="Ketuk kue untuk potong">🎂</div>
+      </div>
+
+      <div class="cake-message-box" id="cake-status">
+        Ketuk api lilin untuk meniup doa 🕯️
+      </div>
+
+      <button class="btn-open-parcel" style="margin-top: 14px; width: auto; padding: 12px 28px;" onclick="shootPastelConfetti()">
+        Ledakkan Kembang Api 🎊
+      </button>
+    </div>
+
+    <!-- CARD 8: CAPSULE DO'A PILIHAN -->
+    <div class="scrapbook-card">
+      <div class="washi-tape">WISH CAPSULES 💊</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 10px; text-align: center;">
+        Kapsul Harapan Untukmu
+      </h3>
+      <p style="font-size: 13px; color: #6c757d; text-align: center; margin-top: 4px;">
+        Ketuk setiap kotak untuk membuka doa khusus:
+      </p>
+
+      <div class="capsule-grid">
+        <div class="capsule-card" onclick="openCapsule(this, 'Semoga raga lo selalu bugar, gak gampang sakit, dan selalu semangat ngejalanin hari! 🌿')">
+          <div class="capsule-header"><span>🩺</span> Kesehatan</div>
+          <div class="capsule-text">Buka doa kesehatan...</div>
+        </div>
+
+        <div class="capsule-card" onclick="openCapsule(this, 'Semoga semua urusan kuliah/sekolah/kerjaan dipermudah dan karir lo makin melesat! 🚀')">
+          <div class="capsule-header"><span>🌟</span> Masa Depan</div>
+          <div class="capsule-text">Buka doa impian...</div>
+        </div>
+
+        <div class="capsule-card" onclick="openCapsule(this, 'Semoga hati lo selalu tenang, bahagia tanpa beban, dan dijauhin dari rasa cemas! 🌸')">
+          <div class="capsule-header"><span>🕊️</span> Ketenangan</div>
+          <div class="capsule-text">Buka doa kedamaian...</div>
+        </div>
+
+        <div class="capsule-card" onclick="openCapsule(this, 'Semoga rezeki lo ngalir deras, berkah, dan bisa beli apa aja yang lo pengenin! 💰')">
+          <div class="capsule-header"><span>🍀</span> Rezeki</div>
+          <div class="capsule-text">Buka doa keberkahan...</div>
+        </div>
+      </div>
+
+      <div id="capsule-alert" style="margin-top: 14px; font-size: 13.5px; font-weight: 700; color: var(--deep-pink); text-align: center; min-height: 22px;"></div>
+    </div>
+
+    <!-- CARD 9: VIRTUAL LOVE & PELUKAN SPAMMER -->
+    <div class="scrapbook-card love-spammer-card">
+      <div class="washi-tape">VIRTUAL HUGS 🫂</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 8px;">
+        Kirim Pelukan Hangat Buat Lo!
+      </h3>
+      <p style="font-size: 13.5px; color: #6c757d; margin-top: 4px;">
+        Klik tombol ini sebanyak-banyaknya buat nerima pelukan & semangat virtual:
+      </p>
+
+      <button class="btn-hug" onclick="sendHug(event)">
+        <span>Kirim Pelukan & Cinta</span> ❤️
+      </button>
+
+      <div class="love-counter-badge">
+        <span id="hug-count">0</span> Pelukan Hangat Diterima ✨
+      </div>
+    </div>
+
+    <!-- CARD 10: WHATSAPP CHAT BUBBLE (0856-4671-0192) -->
+    <div class="scrapbook-card" style="padding: 24px;">
+      <div class="washi-tape">REPLY CORNER 💬</div>
+
+      <h3 style="font-size: 20px; font-weight: 800; color: #2b2d42; margin-top: 8px; text-align: center;">
+        Mau Balas Pesan Ini?
+      </h3>
+      <p style="font-size: 13px; color: #6c757d; text-align: center; margin-top: 4px;">
+        Langsung klik tombol di bawah buat chat balik ke WhatsApp:
+      </p>
+
+      <div class="wa-chat-container">
+        <div class="wa-bubble">
+          <div class="wa-bubble-text">
+            Makasih banyak yaaa udah dibuatin web ultah sekeren ini! Suka banget parah, terharu gue 🥺❤️
+          </div>
+          <div class="wa-bubble-time">Baru saja • ✓✓</div>
+        </div>
+
+        <a href="https://api.whatsapp.com/send?phone=6285646710192&text=Makasih%20banyak%20yaaa%20udah%20dibuatin%20web%20ultah%20sekeren%20ini!%20Suka%20banget%20parah%20terharu%20%F0%9F%A5%BA%E2%9D%A4%EF%B8%8F" 
+           target="_blank" 
+           class="btn-wa-reply">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.275.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.086s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.099.824zm-3.423-14.416c-6.627 0-12 5.373-12 12 0 2.112.551 4.095 1.517 5.823l-1.611 5.885 6.046-1.587c1.761 1.004 3.799 1.579 5.978 1.579 6.627 0 12-5.373 12-12 0-6.627-5.373-12-12-12z"/>
+          </svg>
+          Balas ke WhatsApp (0856-4671-0192)
+        </a>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer-note">
+      Dibuat dengan segenap ketulusan untuk <strong>My Just Friend</strong> 🌸<br>
+      Semoga harimu penuh kebahagiaan!
+    </div>
+
+  </div>
+
+  <script>
+    const music = document.getElementById("bg-music");
+    const floatingPlayer = document.getElementById("floating-player");
+    const playerStatus = document.getElementById("player-status");
+    let isPlaying = false;
+    let candleBlown = false;
+    let cakeCut = false;
+    let hugs = 0;
+
+    // Saat Parcel Dibuka
+    function openCelebration() {
+      document.getElementById("welcome-screen").classList.add("hidden");
+      playMusic();
+      shootPastelConfetti();
+      initScratchCard();
+    }
+
+    // Pemutar Musik
+    function playMusic() {
+      music.play().then(() => {
+        isPlaying = true;
+        floatingPlayer.classList.add("playing");
+        playerStatus.innerText = "Memutar Lagu 🎵";
+      }).catch(err => {
+        console.log("Audio autoplay dicegah browser:", err);
+      });
+    }
+
+    function toggleMusic() {
+      if (isPlaying) {
+        music.pause();
+        isPlaying = false;
+        floatingPlayer.classList.remove("playing");
+        playerStatus.innerText = "Musik Dijeda ⏸️";
+      } else {
+        music.play();
+        isPlaying = true;
+        floatingPlayer.classList.add("playing");
+        playerStatus.innerText = "Memutar Lagu 🎵";
+      }
+    }
+
+    // Tiup Lilin
+    function blowCandle() {
+      const flame = document.getElementById("flame");
+      const status = document.getElementById("cake-status");
+      if (!candleBlown) {
+        flame.classList.add("blown");
+        flame.innerText = "💨";
+        status.innerText = "Yayy! Doa sudah ditiup, semoga terkabul! Sekarang potong kuenya 🍰";
+        candleBlown = true;
+        shootPastelConfetti();
+      } else {
+        flame.classList.remove("blown");
+        flame.innerText = "🔥";
+        status.innerText = "Ketuk api lilin untuk meniup doa 🕯️";
+        candleBlown = false;
+      }
+    }
+
+    // Potong Kue
+    function cutCake() {
+      const cake = document.getElementById("cake");
+      const status = document.getElementById("cake-status");
+      if (!cakeCut) {
+        cake.innerText = "🍰✨";
+        status.innerText = "Nyam! Sepotong kue manis buat hari manismu! 😋🎉";
+        cakeCut = true;
+        shootPastelConfetti();
+      } else {
+        cake.innerText = "🎂";
+        status.innerText = "Kue siap dipotong lagi! 🎂";
+        cakeCut = false;
+      }
+    }
+
+    // Buka Kapsul Doa
+    function openCapsule(el, text) {
+      document.querySelectorAll(".capsule-card").forEach(c => c.classList.remove("opened"));
+      el.classList.add("opened");
+      document.getElementById("capsule-alert").innerText = text;
+      confetti({
+        particleCount: 35,
+        spread: 45,
+        origin: { y: 0.7 }
+      });
+    }
+
+    // Virtual Hug Spammer
+    function sendHug(e) {
+      hugs++;
+      document.getElementById("hug-count").innerText = hugs;
+
+      const heart = document.createElement("div");
+      heart.className = "floating-fly-heart";
+      heart.innerText = ["❤️", "💖", "🥰", "🌸", "✨", "🫂"][Math.floor(Math.random() * 6)];
+      heart.style.left = (e.clientX || (window.innerWidth / 2)) + "px";
+      heart.style.top = (e.clientY || (window.innerHeight / 2)) + "px";
+      heart.style.setProperty("--randX", (Math.random() * 80 - 40));
+      document.body.appendChild(heart);
+
+      setTimeout(() => heart.remove(), 1800);
+
+      if (hugs % 5 === 0) {
+        shootPastelConfetti();
+      }
+    }
+
+    // Konfeti Pastel Hangat
+    function shootPastelConfetti() {
+      confetti({
+        particleCount: 90,
+        spread: 75,
+        colors: ['#ff758f', '#ffb3c6', '#fff0f3', '#ffd166', '#06d6a0', '#118ab2'],
+        origin: { y: 0.6 }
+      });
+
+      setTimeout(() => {
+        confetti({
+          particleCount: 50,
+          angle: 60,
+          spread: 55,
+          origin: { x: 0 }
+        });
+        confetti({
+          particleCount: 50,
+          angle: 120,
+          spread: 55,
+          origin: { x: 1 }
+        });
+      }, 200);
+    }
+
+    // Latar Belakang Doodles
+    function createDoodles() {
+      const icons = ['✧', '♡', '🎀', '⭐', '🌸', '🍰', '💌', '✦'];
+      const container = document.getElementById("doodles-container");
+      for (let i = 0; i < 18; i++) {
+        const s = document.createElement("span");
+        s.className = "doodle";
+        s.innerText = icons[Math.floor(Math.random() * icons.length)];
+        s.style.left = Math.random() * 95 + "vw";
+        s.style.animationDuration = (8 + Math.random() * 7) + "s";
+        s.style.animationDelay = (Math.random() * 6) + "s";
+        s.style.fontSize = (16 + Math.random() * 16) + "px";
+        container.appendChild(s);
+      }
+    }
+    createDoodles();
+
+    // ============================================================
+    // CANVAS SCRATCH CARD LOGIC
+    // ============================================================
+    function initScratchCard() {
+      const canvas = document.getElementById("scratch-canvas");
+      if (!canvas) return;
+      
+      const ctx = canvas.getContext("2d");
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width || 380;
+      canvas.height = rect.height || 175;
+
+      // Buat lapisan gosok perak/metalik halus
+      ctx.fillStyle = "#c5c9d6";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Pattern tulisan "GOSOK DI SINI"
+      ctx.font = "bold 15px 'Plus Jakarta Sans', sans-serif";
+      ctx.fillStyle = "#8d93a5";
+      ctx.textAlign = "center";
+      ctx.fillText("✨ GOSOK DENGAN JARI / KURSOR ✨", canvas.width / 2, canvas.height / 2 - 5);
+      ctx.font = "12px 'Plus Jakarta Sans', sans-serif";
+      ctx.fillText("Ada hadiah rahasia menantimu!", canvas.width / 2, canvas.height / 2 + 18);
+
+      let isDrawing = false;
+      let scratchedPixels = 0;
+
+      function scratch(e) {
+        if (!isDrawing) return;
+        const box = canvas.getBoundingClientRect();
+        const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+        const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+        if (!clientX || !clientY) return;
+
+        const x = clientX - box.left;
+        const y = clientY - box.top;
+
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.beginPath();
+        ctx.arc(x, y, 22, 0, Math.PI * 2);
+        ctx.fill();
+
+        scratchedPixels++;
+        if (scratchedPixels > 40) {
+          document.getElementById("scratch-hint").innerText = "🎉 SELAMAT! Voucher berhasil kamu dapatkan!";
+          document.getElementById("scratch-hint").style.color = "#2b9348";
+        }
+      }
+
+      canvas.addEventListener("mousedown", (e) => { isDrawing = true; scratch(e); });
+      canvas.addEventListener("mousemove", scratch);
+      window.addEventListener("mouseup", () => { isDrawing = false; });
+
+      canvas.addEventListener("touchstart", (e) => { isDrawing = true; scratch(e); }, { passive: true });
+      canvas.addEventListener("touchmove", scratch, { passive: true });
+      window.addEventListener("touchend", () => { isDrawing = false; });
+    }
+  </script>
+</body>
+</html>
